@@ -181,12 +181,18 @@ module finger_notch(angle, fingerwidth, offset)
 				cylinder(h = 40, r = 15, center=true);
 }
 
-module finger_notches(angle, fingerwidth)
+module finger_notches(angle, fingerwidth, xtranslate)
 {
-	finger_notch(angle, fingerwidth, 1);
-	finger_notch(angle, fingerwidth, 2);
-	finger_notch(angle, fingerwidth, 3);
-	finger_notch(angle, fingerwidth, 4);
+	translate(v = [2, 2, 0]) {
+		translate(v = [0, 0, 0])
+			finger_notch(angle, fingerwidth, 1);
+		translate(v = [-2, -2, 0])
+			finger_notch(angle, fingerwidth, 2);
+		translate(v = [-4, -4, 0])
+			finger_notch(angle, fingerwidth, 3);
+		translate(v = [-6, -6, 0])
+			finger_notch(angle, fingerwidth, 4);
+	}
 }
 
 module full_set_of_finger_notches(fingerwidth)
