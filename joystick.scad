@@ -13,7 +13,8 @@ print_base_platform_cap = 1;
 ring_radius = 45;
 inner_ring_radius = ring_radius * 0.75; 
 axle_radius = 5;
-ring_height = axle_radius * 3;
+axle_hole_radius = axle_radius + 1;
+ring_height = axle_radius * 4;
 tolerance = 0.05;
 
 module half_ring(h, ir, or, holer)
@@ -64,10 +65,10 @@ module base(h)
 		cylinder(h = h * 2, r = r * 0.5, center=true);
 		translate(v = [-r + 6, 0, 0])
 			scale(v = [1.05, 1.03, 1.03])
-				base_post(8, axle_radius * 4, axle_radius * 8, axle_radius); 
+				base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
 		translate(v = [r - 6, 0, 0])
 			scale(v = [1.05, 1.05, 1.05])
-				base_post(8, axle_radius * 4, axle_radius * 8, axle_radius); 
+				base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
 		}
 	}
 }
@@ -77,10 +78,10 @@ module base_posts(h)
 	r = ring_radius + 12;
 	translate(v = [-r * 1.2, -r * 2, 4])
 		rotate(a = 90, v = [0, 1, 0])
-			base_post(8, axle_radius * 4, axle_radius * 8, axle_radius); 
+			base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
 	translate(v = [r * 0.4, -r * 2, 4])
 		rotate(a = 90, v = [0, 1, 0])
-			base_post(8, axle_radius * 4, axle_radius * 8, axle_radius); 
+			base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
 }
 
 module base_platform(h)
@@ -155,7 +156,7 @@ module axle_cap()
 	difference() {
 		cylinder(h = 5, r = 2.0 * axle_radius * 0.95);
 		translate(v = [0, 0, 2])
-			cylinder(h = 5, r = axle_radius);
+			cylinder(h = 5, r = axle_hole_radius);
 	}
 }
 
@@ -254,7 +255,7 @@ module all_of_it()
 {
 	if (print_rings == 1) {
 		translate(v = [0, -ring_radius * 2.4, 0]) {
-			rings(ring_height, inner_ring_radius, ring_radius, axle_radius);
+			rings(ring_height, inner_ring_radius, ring_radius, axle_hole_radius);
 		}
 	}
 
