@@ -4,11 +4,16 @@ print_handle = 1;
 print_short_axle_pair = 1;
 print_axle_cap_pair = 1;
 print_long_axle = 1;
+print_base_posts = 1;
 print_base = 1;
 print_rings = 1;
 hole_thru_handle = 0;
 print_base_platform = 1;
 print_base_platform_cap = 1;
+
+print_plate_1 = 1;
+print_plate_2 = 1;
+print_plate_3 = 1;
 
 show_replicator_build_plate = 1;
 show_replicator_build_volume = 1;
@@ -21,6 +26,10 @@ ring_height = axle_radius * 4;
 tolerance = 0.05;
 
 inches_to_mm = 25.4;
+
+plate_1_offset = 0;
+plate_2_offset = (print_plate_1 * 6.5 * inches_to_mm); 
+plate_3_offset = (print_plate_1 + print_plate_2) * 6.5 * inches_to_mm;
 
 module build_plate()
 {
@@ -64,10 +73,12 @@ module half_ring(h, ir, or, holer)
 
 module rings(h, ir, or, holer)
 {
-	translate(v = [or * 1.1, 0, 0])
-		half_ring(h, ir, or, holer);
-	translate(v = [-or * 1.1, 0, 0])
-		half_ring(h, ir, or, holer);
+	translate(v = [0, plate_1_offset, 0]) {
+		translate(v = [or * 1.1, 0, 0])
+			half_ring(h, ir, or, holer);
+		translate(v = [-or * 1.1, 0, 0])
+			half_ring(h, ir, or, holer);
+	}
 }
 
 module base_post(w, d, h, r)
@@ -101,10 +112,10 @@ module base(h)
 module base_posts(h)
 {
 	r = ring_radius + 16;
-	translate(v = [-r * 1.2, -r * 2, 4])
+	translate(v = [-r * 1.2, 0, 4])
 		rotate(a = 90, v = [0, 1, 0])
 			base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
-	translate(v = [r * 0.4, -r * 2, 4])
+	translate(v = [r * 0.4, 0, 4])
 		rotate(a = 90, v = [0, 1, 0])
 			base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
 }
@@ -117,7 +128,7 @@ module base_platform(h)
 			translate(v = [0, 0, h])
 				cylinder(h = h * 2, r = r * 0.5 * 0.95, center=true);
 			translate(v = [0, 0, h / 2])
-			cylinder(h = h, r = r * 1.25, center=true);
+			cylinder(h = h, r = r * 1.20, center=true);
 		}
 		cylinder(h = h * 5, r = r * 0.2, center=true);
 	}
@@ -269,8 +280,8 @@ module handle_stage1()
 
 module handle()
 {
-	if (print_handle == 1) {
-		translate(v = [90, 0, 0])
+	if (print_handle == 1 && print_plate_2) {
+		translate(v = [110, plate_2_offset, 0])
 			rotate(a = 45, v = [0, 0, 1]) {
 				difference() {
 					handle_stage1();
@@ -285,36 +296,39 @@ module handle()
 
 module all_of_it()
 {
-	if (print_rings == 1) {
-		translate(v = [0, -ring_radius * 2.4, 0]) {
+	if (print_rings == 1 && print_plate_1 == 1) {
+		translate(v = [0, 0, 0]) {
 			rings(ring_height, inner_ring_radius, ring_radius, axle_hole_radius);
 		}
 	}
 
-	if (print_base == 1) {
-		translate(v = [ring_radius * -1.9, 0, 0])
+	if (print_base == 1 && print_plate_2) {
+		translate(v = [ring_radius * -1.7, plate_2_offset, 0])
 		base(8);
 	}
-	base_posts(8);
-	if (print_long_axle == 1) {
-		translate(v = [ring_radius * -1.9, 0, 0])
+	if (print_base_posts && print_plate_1) {
+		translate(v = [0, plate_1_offset, 0])
+			base_posts(8);
+	}
+	if (print_long_axle == 1 && print_plate_1) {
+		translate(v = [50, plate_1_offset + 20, 0])
 			long_axle();
 	}
-	if (print_axle_cap_pair == 1) {
-		translate(v = [90, ring_radius * 2.5, 0])
+	if (print_axle_cap_pair == 1 && print_plate_1) {
+		translate(v = [120, plate_1_offset, 0])
 			axle_cap_pair();
 	}
-	if (print_short_axle_pair == 1) {
-		translate(v = [-90, ring_radius * 2.5, 0])
+	if (print_short_axle_pair == 1 && print_plate_1) {
+		translate(v = [-120, plate_1_offset, 0])
 			short_axle_pair();
 	}
 	handle();
-	if (print_base_platform == 1) {
-		translate(v = [0, 120, 0])
+	if (print_base_platform == 1 && print_plate_3) {
+		translate(v = [0, plate_3_offset, 0])
 			base_platform(8);
 	}
-	if (print_base_platform_cap == 1) {
-		translate(v = [22, 0, 0])
+	if (print_base_platform_cap == 1 && print_plate_2) {
+		translate(v = [35, plate_2_offset, 0])
 			base_platform_cap(8);
 	}
 }
