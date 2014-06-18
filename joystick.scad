@@ -101,9 +101,10 @@ module base_platform(h)
 module base_platform_cap(h)
 {
 	r = ring_radius + 12;
+	post_height = h * 2 + h / 2;
 	union() {
 		translate(v = [0, 0, h * 3.0 / 2.0])
-			cylinder(h = h * 3, r = (r * 0.2) - 1.5, center=true);
+			cylinder(h = post_height, r = (r * 0.2) - 1, center=true);
 		translate(v = [0, 0, h / 4.0])
 			cylinder(h = h / 2, r = r * 0.7, center=true);
 	}
