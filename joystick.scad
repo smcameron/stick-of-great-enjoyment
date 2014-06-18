@@ -10,12 +10,39 @@ hole_thru_handle = 0;
 print_base_platform = 1;
 print_base_platform_cap = 1;
 
+show_replicator_build_plate = 1;
+show_replicator_build_volume = 1;
+
 ring_radius = 45;
 inner_ring_radius = ring_radius * 0.75; 
 axle_radius = 5;
 axle_hole_radius = axle_radius + 1;
 ring_height = axle_radius * 4;
 tolerance = 0.05;
+
+inches_to_mm = 25.4;
+
+module build_plate()
+{
+	if (show_replicator_build_plate == 1) {
+		translate(v = [0, 0, -2.5]) {
+			color([1.0, 0.0, 1.0, 0.5])
+				cube(size = [11.2 * inches_to_mm, 6.0 * inches_to_mm, 5],
+					center = true);
+		}
+	}
+}
+
+module build_volume()
+{
+	if (show_replicator_build_volume == 1) {
+		translate(v = [0, 0, 6.1 * inches_to_mm / 2]) {
+			color([0.0, 1.0, 0.0, 0.5])
+				cube(size = [11.2 * inches_to_mm, 6.0 * inches_to_mm,
+						6.1 * inches_to_mm], center = true);
+		}
+	}
+}
 
 module half_ring(h, ir, or, holer)
 {
@@ -293,4 +320,7 @@ module all_of_it()
 }
 
 all_of_it();
+
+build_plate();
+build_volume();
 
