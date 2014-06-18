@@ -58,24 +58,22 @@ module base_post(w, d, h, r)
 
 module base(h)
 {
-	r = ring_radius + 12;
+	r = ring_radius + 16;
 	translate(v = [0, 0, h / 2]) {
 		difference() {
 		cylinder(h = h, r = r, center=true);
 		cylinder(h = h * 2, r = r * 0.5, center=true);
-		translate(v = [-r + 6, 0, 0])
-			scale(v = [1.05, 1.03, 1.03])
-				base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
-		translate(v = [r - 6, 0, 0])
-			scale(v = [1.05, 1.05, 1.05])
-				base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
+		translate(v = [-r + 8, 0, 0])
+			base_post(8 + 1, axle_radius * 4 + 1, axle_radius * 8.5, axle_hole_radius); 
+		translate(v = [r - 8, 0, 0])
+			base_post(8 + 1, axle_radius * 4 + 1, axle_radius * 8.5, axle_hole_radius); 
 		}
 	}
 }
 
 module base_posts(h)
 {
-	r = ring_radius + 12;
+	r = ring_radius + 16;
 	translate(v = [-r * 1.2, -r * 2, 4])
 		rotate(a = 90, v = [0, 1, 0])
 			base_post(8, axle_radius * 4, axle_radius * 8.5, axle_hole_radius); 
@@ -86,7 +84,7 @@ module base_posts(h)
 
 module base_platform(h)
 {
-	r = ring_radius + 12;
+	r = ring_radius + 16;
 	difference() {
 		union() {
 			translate(v = [0, 0, h])
@@ -100,7 +98,7 @@ module base_platform(h)
 
 module base_platform_cap(h)
 {
-	r = ring_radius + 12;
+	r = ring_radius + 16;
 	post_height = h * 2 + h / 2;
 	union() {
 		translate(v = [0, 0, h * 3.0 / 2.0])
@@ -239,7 +237,7 @@ module handle_stage1()
 module handle()
 {
 	if (print_handle == 1) {
-		translate(v = [80, 0, 0])
+		translate(v = [90, 0, 0])
 			rotate(a = 45, v = [0, 0, 1]) {
 				difference() {
 					handle_stage1();
@@ -283,7 +281,7 @@ module all_of_it()
 			base_platform(8);
 	}
 	if (print_base_platform_cap == 1) {
-		translate(v = [15, 0, 0])
+		translate(v = [22, 0, 0])
 			base_platform_cap(8);
 	}
 }
