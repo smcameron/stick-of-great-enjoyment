@@ -10,7 +10,7 @@ hole_thru_handle = 0;
 print_base_platform = 1;
 print_base_platform_cap = 1;
 
-ring_radius = 35;
+ring_radius = 45;
 inner_ring_radius = ring_radius * 0.75; 
 axle_radius = 5;
 ring_height = axle_radius * 3;
@@ -237,7 +237,7 @@ module handle_stage1()
 module handle()
 {
 	if (print_handle == 1) {
-		translate(v = [70, 0, 0])
+		translate(v = [80, 0, 0])
 			rotate(a = 45, v = [0, 0, 1]) {
 				difference() {
 					handle_stage1();
@@ -268,16 +268,16 @@ module all_of_it()
 			long_axle();
 	}
 	if (print_axle_cap_pair == 1) {
-		translate(v = [70, ring_radius * 2.5, 0])
+		translate(v = [90, ring_radius * 2.5, 0])
 			axle_cap_pair();
 	}
 	if (print_short_axle_pair == 1) {
-		translate(v = [-80, ring_radius * 2.5, 0])
+		translate(v = [-90, ring_radius * 2.5, 0])
 			short_axle_pair();
 	}
 	handle();
 	if (print_base_platform == 1) {
-		translate(v = [0, 100, 0])
+		translate(v = [0, 120, 0])
 			base_platform(8);
 	}
 	if (print_base_platform_cap == 1) {
