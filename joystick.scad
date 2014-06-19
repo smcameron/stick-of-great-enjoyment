@@ -26,7 +26,7 @@ axle_radius = 5;
 axle_hole_radius = axle_radius + 1;
 ring_height = axle_radius * 4;
 tolerance = 0.05;
-captive_button_large_radius = 9;
+captive_button_large_radius = 10.9;
 
 inches_to_mm = 25.4;
 

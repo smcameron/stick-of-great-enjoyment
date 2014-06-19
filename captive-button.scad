@@ -16,7 +16,7 @@ module captive_button_shaft(button_radius, midsection_height, height)
 {
 	union() {
 		cylinder(h = height, r = button_radius, center = true);
-		button_bulge(button_radius, button_radius + 5, midsection_height);
+		button_bulge(button_radius, button_radius + 4, midsection_height);
 	}
 }
 
@@ -24,10 +24,17 @@ module captive_button(button_radius, travel, height)
 {
 	union() {
 		difference() {
-			cylinder(h = height, r = (button_radius + 5) + 5, center = true);
+			cylinder(h = height, r = (button_radius + 4) + 4, center = true);
 			captive_button_shaft(button_radius + 2, travel * 2, height + 5);
 		}
 		captive_button_shaft(button_radius, travel, height);
 	}
 }
+
+/*
+difference() {
+	captive_button(5, 4, 100);
+	cube(size = [20, 20, 200]);
+}
+*/
 
