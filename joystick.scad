@@ -280,6 +280,8 @@ module handle_stage1()
 
 module handle()
 {
+	zr = 75;
+	zh = 60;
 	if (print_handle == 1 && print_plate_2) {
 		translate(v = [110, plate_2_offset, 0])
 			rotate(a = 45, v = [0, 0, 1]) {
@@ -288,7 +290,22 @@ module handle()
 					translate(v = [0, 0, 180])
 					rotate(a = -45, v = [0, 0, 1])
 					rotate(a = -60, v = [1, 0, 0])
-						cylinder(h = 100, r = 55, center = true);
+						/* cylinder(h = 100, r = 55, center = true); */
+						cube(size = [110, 110, 100], center = true);
+					color([1.0, 0.0, 1.0, 0.5]) {
+					  rotate(a = 45, v = [0, 0, 1])
+					    translate(v = [15, 0, 139])
+					      rotate(a = -33, v = [0, 1, 0])
+						scale(v = [0.6 * 1, 0.6 * 0.60, 0.6 * 1]) {
+						  difference() {
+						    cylinder(h = zh, r1 = zr, r2 = 0, center = true);
+						    translate(v = [0, 0, -10])
+						      cylinder(h = zh, r1 = zr, r2 = 0, center = true);
+						    translate(v = [0, 0, 20])
+						      cylinder(h = zh, r1 = zr + 10, r2 = 60, center = true);
+						  }
+						}
+				      }
 				}
 			}
 	}
