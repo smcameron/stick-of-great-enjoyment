@@ -1,5 +1,7 @@
 $fn=200;
 
+include <captive-button.scad>
+
 print_handle = 1;
 print_short_axle_pair = 1;
 print_axle_cap_pair = 1;
@@ -24,6 +26,7 @@ axle_radius = 5;
 axle_hole_radius = axle_radius + 1;
 ring_height = axle_radius * 4;
 tolerance = 0.05;
+captive_button_large_radius = 9;
 
 inches_to_mm = 25.4;
 
@@ -311,7 +314,17 @@ module handle()
 	if (print_handle == 1 && print_plate_2) {
 		translate(v = [110, plate_2_offset, 0])
 			rotate(a = 45, v = [0, 0, 1]) {
-				handle_helper(zr, zh);
+				union() {
+				difference() {
+					handle_helper(zr, zh);
+					translate(v = [captive_button_large_radius / 2,
+						captive_button_large_radius / 2, -150])
+					cylinder(h = 300, r = captive_button_large_radius);
+				}
+				translate(v = [captive_button_large_radius / 2,
+					captive_button_large_radius / 2, 65])
+				captive_button(1.1 * (captive_button_large_radius / 4), 3, 130);
+				}
 			}
 	}
 }
